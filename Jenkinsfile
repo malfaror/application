@@ -4,12 +4,7 @@ pipeline {
     stages {
         stage('Build and Test') {
             steps {
-               docker.build("malfaror/application")
-            }
-        }
-        stage('Stagging') {
-          steps {
-         echo 'Stagging...'
+               docker build("malfaror/application")
             }
         }
         stage('Deploy') {
@@ -21,4 +16,5 @@ pipeline {
             }
         }
     }
- }
+  }
+}
