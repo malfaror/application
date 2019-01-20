@@ -1,18 +1,18 @@
 pipeline {
-    agent any
+    agent { dockerfile true }
 
     stages {
         stage('Build and Test') {
             steps {
-               docker build("malfaror/application")
+               def app = docker.build("malfaror/application:${env.BUILD_ID}")
+                 app.push()
+                app.push('latest')
             }
         }
         stage('Deploy') {
             steps {
                 echo 'Deploying...'
-                docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-            docker push("${env.BUILD_NUMBER}")
-            docker push("latest")
+               
             }
         }
     }
