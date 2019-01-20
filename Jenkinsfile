@@ -1,18 +1,24 @@
-node {
-    def app
-  
-         stage('Build and Test') {
-                  echo 'Building..'
-                  app = docker.build("malfaror/application")
+pipeline {
+    agent any
+
+    stages {
+        stage('Build and Test') {
+            steps {
+               docker.build("malfaror/application")
             }
+        }
         stage('Stagging') {
-                 echo 'Testing...'
+          steps {
+         echo 'Stagging...'
             }
+        }
         stage('Deploy') {
-             echo 'Deploying....'
-             docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-            app.push("${env.BUILD_NUMBER}")
-            app.push("latest")
+            steps {
+                echo 'Deploying...'
+                docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+            docker push("${env.BUILD_NUMBER}")
+            docker push("latest")
+            }
         }
     }
  }
