@@ -9,6 +9,8 @@ node {
     
      stage('Deploy') {
             echo "Deploying"
+         sh 'docker push gcr.io/smiling-breaker-228800/malfaror-application:${env.BUILD_ID}'
+         
         }
      }
   
